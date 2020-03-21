@@ -44,14 +44,14 @@ public class SearchSteps {
 
     @And("^ANB - I verify newest Product are sorted$")
     public void anbIVerifyNewestProductAreSorted() throws Exception {
-        int previousDate = 0;
+        int latestDate = Integer.parseInt(DateUtil.getCurrentDate("yyyyMMdd"));
         List<WebElement> elementList = commonPage.findElements("search.productResult.list");
         for (WebElement e : elementList) {
             String[] list = e.getText().split("·");
             String expectedDate = DateUtil.convertDate(list[2].trim(), "yyyyMMdd");
-            int latestDate = Integer.parseInt(expectedDate);
+            int previousDate = Integer.parseInt(expectedDate);
             Assert.assertTrue(latestDate >= previousDate);
-            previousDate = latestDate;
+            latestDate = previousDate;
         }
         Serenity.takeScreenshot();
     }

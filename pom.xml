@@ -16,6 +16,7 @@
         <serenity.junit.archetype.version>1.2.0</serenity.junit.archetype.version>
         <selenium.version>3.141.59</selenium.version>
         <parallel.tests>4</parallel.tests>
+        <webdriver.driver></webdriver.driver>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <encoding>UTF-8</encoding>
     </properties>
@@ -38,8 +39,8 @@
                     <testFailureIgnore>true</testFailureIgnore>
                     <includes>
                         <include>**/*Test.java</include>
-                        <include>**/Test*.java</include>
                     </includes>
+                    <argLine>-Xmx512m</argLine>
                 </configuration>
                 <executions>
                     <execution>
