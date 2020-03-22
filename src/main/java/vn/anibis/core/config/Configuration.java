@@ -25,19 +25,8 @@ public class Configuration {
     public static final String WEB_DRIVER_PATH = "web.driver.path";
     public static final String WEB_BROWSER_NAME = "web.browser.name";
     public static final String OBJ_REPO_FOLDER = "obj.repo.folder";
-    public static final String BROWSER_BINARY_PATH = "browser.binary.path";
-    public static final String MOBILE_REMOTE_URL = "mobile.remote.url";
-    public static final String MOBILE_PLATFORM_NAME = "mobile.platform.name";
-    public static final String REST_ASSURED_CLASS = "rest.assured.class";
-    public static final String DB_CONNECTIONS_FILE = "db.connections.file";
-    public static final String SSH_CONNECTIONS_FILE = "ssh.connection.file";
-    public static final String DATA_FOLDER = "data.folder";
-    public static final String PROPERTIES_EXTENSION_NAME = ".properties";
     public static final String DEFAULT_CONFIG = "config/environment.properties";
-    public static final String DEFAULT_CONFIG_FOLDER = "config";
-    public static final String DEFAULT_CONFIG_FILE = "config.properties";
     public static final String DEFAULT_DATA_FOLDER = "data";
-    public static final String DEFAULT_DATA_FILE = "data.properties";
     static final Logger LOGGER = Logger.getLogger(Configuration.class);
     private static Configuration config;
     Properties props;
@@ -48,6 +37,7 @@ public class Configuration {
     public static WebDriver driver;
 
     static int defaultTimeOut = 10;
+    static int defaultPageTimeout = 10;
 
     public Configuration() {
         props = new Properties();
@@ -115,12 +105,16 @@ public class Configuration {
                     break;
             }
             String timeout = getValue("object.wait.timeout");
+            String pageTimeout = getValue("page.wait.timeout");
             if (timeout != null && !timeout.isEmpty()) {
                 defaultTimeOut = Integer.parseInt(timeout);
             }
+
+            if (pageTimeout != null && !pageTimeout.isEmpty()) {
+                defaultPageTimeout = Integer.parseInt(pageTimeout);
+            }
             driver.manage().timeouts().implicitlyWait(defaultTimeOut, TimeUnit.SECONDS);
-            driver.manage().timeouts().pageLoadTimeout(defaultTimeOut,TimeUnit.SECONDS);
-            driver.manage().deleteAllCookies();
+            driver.manage().timeouts().pageLoadTimeout(defaultPageTimeout, TimeUnit.SECONDS);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
         }

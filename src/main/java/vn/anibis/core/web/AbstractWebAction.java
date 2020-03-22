@@ -63,6 +63,7 @@ public class AbstractWebAction extends Configuration implements WebAction {
     public void goToURL(String URL) {
         driver.manage().window().maximize();
         driver.get(URL);
+        driver.manage().deleteAllCookies();
     }
 
     @Override

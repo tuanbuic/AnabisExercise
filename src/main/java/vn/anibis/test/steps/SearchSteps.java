@@ -48,7 +48,7 @@ public class SearchSteps {
         List<WebElement> elementList = commonPage.findElements("search.productResult.list");
         for (WebElement e : elementList) {
             String[] list = e.getText().split("·");
-            String expectedDate = DateUtil.convertDate(list[2].trim(), "yyyyMMdd");
+            String expectedDate = DateUtil.convertDate(list[list.length-1].trim(), "yyyyMMdd");
             int previousDate = Integer.parseInt(expectedDate);
             Assert.assertTrue(latestDate >= previousDate);
             latestDate = previousDate;

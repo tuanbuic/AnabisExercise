@@ -39,6 +39,8 @@ public class HomeSteps {
         homePage.clickLogin();
     }
 
-
-
+    @And("^ANB - I back to HomePage$")
+    public void anbIBackToHomePage() throws Exception {
+        homePage.backToHomePage();
+    }
 }

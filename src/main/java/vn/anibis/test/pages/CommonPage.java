@@ -64,7 +64,6 @@ public class CommonPage {
 
     public WebElement findElement(String path) {
         try {
-
             return abstractWebAction.findElement(path);
         } catch (Exception e) {
             stepException(e);

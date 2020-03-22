@@ -25,6 +25,6 @@ Feature: Users login functionality
       |                  | N’oubliez pas cette information          | #D01D00 |
       | @gmail.com       | Indiquez votre adresse e-mail            | #D01D00 |
       | aaaaaa           | Indiquez votre adresse e-mail            | #D01D00 |
-      | abc@.com         | Indiquez votre adresse e-mail            | #D01D00 |
+      | abc@.com         | Entrez votre adresse e-mail correctement | #D01D00 |
       | a@b@c@anabis.com | Entrez votre adresse e-mail correctement | #D01D00 |
       | .test@domain.com | Entrez votre adresse e-mail correctement | #D01D00 |
