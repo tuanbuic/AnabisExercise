@@ -3,7 +3,7 @@ Download a Framework
 -----
 https://github.com/tuanbuic/AnabisExercise.git
 
-##Tools
+Tools
 ------
 * Maven
 * Cucumber-JVM
@@ -58,6 +58,7 @@ Framework Architecture
                             |PropetiesUtil.java
                 |_test/java
                     |_RunnerTest.java
+                    
 ## Usage
 * Write you features and put in features folder                   
 * Define Step in src/main/anibis/test/steps                    
@@ -66,13 +67,13 @@ Framework Architecture
 * Data for testing store in data/data.properties
 
 Use object_repositories convention
- --
+ --------------------
 - We support 4 types of Locator in this framework: ID, Name, Xpath, and CSS
 - To define any Type of Locator. You can follow the instruct below
     * Your_Key_Properties_name = **{LocatoerType}**:::**{LocattorValue}**
     * Example: 
-        - login.logOn.button = id:::ctl00_phlContent_btnLogin
-        - search.priceRange.input= //input[@type='number']
+        - login.logOn.button = **id**:::**ctl00_phlContent_btnLogin**
+        - search.priceRange.input= **//input[@type='number']**
         
 Wait Page and Object          
 --
