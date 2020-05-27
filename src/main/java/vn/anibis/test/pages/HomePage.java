@@ -23,8 +23,4 @@ public class HomePage extends CommonPage {
     public void clickLogin() throws Exception {
         click("homepage.login.button");
     }
-
-    public void backToHomePage() throws Exception {
-        click("homePage.icon");
-    }
 }

@@ -30,7 +30,6 @@ public class LoginSteps {
 
     @Then("^ANB - I can login successfully$")
     public void anbICanLoginSuccessfully() {
-        commonPage.waitVisibility("login.accountName",10);
         assertEquals(commonPage.getDataValue("account.name"),commonPage.findElement("login.accountName").getText());
         Serenity.takeScreenshot();
     }
@@ -48,7 +47,6 @@ public class LoginSteps {
 
     @Then("^ANB - I should see messge \"([^\"]*)\" with color \"([^\"]*)\"$")
     public void anbIShouldSeeMessgeWithColor(String message, String color) throws Throwable {
-        commonPage.waitVisibility("login.error.message",10);
         String actual = commonPage.findElement("login.error.message").getText();
         String actualColor =commonPage.getColor("login.error.message","color").toUpperCase();
         assertEquals("Error message not match",message,actual.trim());

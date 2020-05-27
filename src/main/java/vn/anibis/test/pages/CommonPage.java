@@ -8,14 +8,15 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.Color;
 import vn.anibis.core.config.Configuration;
 import vn.anibis.core.web.AbstractWebAction;
+import vn.anibis.page.BasePage;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CommonPage {
+public class CommonPage extends BasePage {
     static final Logger logger = Logger.getLogger(CommonPage.class.getName());
-    AbstractWebAction abstractWebAction = new AbstractWebAction();
+//    AbstractWebAction abstractWebAction = new AbstractWebAction();
 
     public void stepException(String mes) {
         throw new RuntimeException(mes);
@@ -27,7 +28,7 @@ public class CommonPage {
 
     public void gotoURL(String URL) {
         try {
-            abstractWebAction.goToURL(URL);
+            webAction.goToURL(URL);
         } catch (TimeoutException e) {
             Assert.fail("Timeout because of Page loading too long");
         }
@@ -35,8 +36,8 @@ public class CommonPage {
 
     public void click(String path, int sec) throws Exception {
         try {
-            abstractWebAction.waitVisibility(path, sec);
-            abstractWebAction.click(path);
+            webAction.waitVisibility(path, sec);
+            webAction.click(path);
         } catch (Exception e) {
             stepException(e);
         }
@@ -48,14 +49,14 @@ public class CommonPage {
 
     public void typeText(String path, String text, int sec) {
         try {
-            abstractWebAction.waitVisibility(path, sec);
-            abstractWebAction.typeText(path, text);
+            webAction.waitVisibility(path, sec);
+            webAction.typeText(path, text);
         } catch (Exception e) {
             stepException(e);
         }
     }
     public List<WebElement> findElements(String objPath){
-       return abstractWebAction.findElements(objPath);
+       return webAction.findElements(objPath);
     }
 
     public void typeText(String path, String text) {
@@ -64,7 +65,8 @@ public class CommonPage {
 
     public WebElement findElement(String path) {
         try {
-            return abstractWebAction.findElement(path);
+
+            return webAction.findElement(path);
         } catch (Exception e) {
             stepException(e);
         }
@@ -77,15 +79,15 @@ public class CommonPage {
 
     public String getPageTitle() {
 
-        return abstractWebAction.getPageTitle();
+        return webAction.getPageTitle();
     }
 
     public WebElement getCursor() {
-        return abstractWebAction.getCusor();
+        return webAction.getCusor();
     }
 
     public String getColor(String objpath, String cssValueName) throws Exception {
-        return Color.fromString(abstractWebAction.getCSSValue(objpath, cssValueName)).asHex();
+        return Color.fromString(webAction.getCSSValue(objpath, cssValueName)).asHex();
     }
 
     public Map<String, String> transformData(Map<String, String> dataMap) {
@@ -106,13 +108,13 @@ public class CommonPage {
         if (page.equalsIgnoreCase("Home")) {
             switch (language.toUpperCase()) {
                 case "DE":
-                    abstractWebAction.selectItemByValue("language.select", "0");
+                    webAction.selectItemByValue("language.select", "0");
                     break;
                 case "FR":
-                    abstractWebAction.selectItemByValue("language.select", "1");
+                    webAction.selectItemByValue("language.select", "1");
                     break;
                 case "IT":
-                    abstractWebAction.selectItemByValue("language.select", "2");
+                    webAction.selectItemByValue("language.select", "2");
                     break;
                 default:
                     break;
@@ -143,7 +145,7 @@ public class CommonPage {
 
     public boolean waitVisibility(String xpath, int sec) {
         try {
-            return abstractWebAction.waitVisibility(xpath, sec);
+            return webAction.waitVisibility(xpath, sec);
         } catch (Exception e) {
             return false;
         }

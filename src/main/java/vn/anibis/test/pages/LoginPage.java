@@ -2,21 +2,9 @@ package vn.anibis.test.pages;
 
 public class LoginPage extends CommonPage {
     public void logInWithAccount(String username, String password) throws Exception {
-        String account;
-        String pass;
-        if(getDataValue(username)==null){
-            account = username;
-        }else {
-            account = getDataValue(username);
-        }
-        if(getDataValue(password)==null){
-            pass = password;
-        }else{
-            pass = getDataValue(password);
-        }
-        typeText("login.username.textbox", account);
+        typeText("login.username.textbox", getDataValue(username));
         click("login.continue.button");
-        typeText("login.password.textbox", pass);
+        typeText("login.password.textbox", getDataValue(password));
         click("login.logOn.button");
     }
 

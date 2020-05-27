@@ -29,8 +29,8 @@ public class SearchPage extends CommonPage {
             typeText("search.location.input", dataTable.get("Location") + Keys.TAB);
         }
         if (dataTable.get("Distance") != null) {
-            abstractWebAction.waitExist("search.distance.select", 5);
-            abstractWebAction.selectItemByValue("search.distance.select", "10");
+            webAction.waitExist("search.distance.select", 5);
+            webAction.selectItemByValue("search.distance.select", "10");
         }
     }
 
@@ -39,19 +39,19 @@ public class SearchPage extends CommonPage {
     }
 
     public int getListProduct() {
-        return abstractWebAction.findElements("search.productResult.list").size();
+        return webAction.findElements("search.productResult.list").size();
     }
 
     public void sortingWithCondition(String condition) throws Exception {
         switch (condition.toUpperCase()) {
             case "DATE":
-                abstractWebAction.selectItemByValue("search.sorting.select", "dpo|d");
+                webAction.selectItemByValue("search.sorting.select", "dpo|d");
                 break;
             case "HIGH PRICE":
-                abstractWebAction.selectItemByValue("search.sorting.select", "pri|d");
+                webAction.selectItemByValue("search.sorting.select", "pri|d");
                 break;
             case "LOW PRICE":
-                abstractWebAction.selectItemByValue("search.sorting.select", "pri|a");
+                webAction.selectItemByValue("search.sorting.select", "pri|a");
                 break;
             default:
                 break;
@@ -59,6 +59,6 @@ public class SearchPage extends CommonPage {
     }
 
     public void clickOnSearchButton() throws Exception {
-        abstractWebAction.click("search.tab.button");
+        webAction.click("search.tab.button");
     }
 }

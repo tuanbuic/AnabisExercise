@@ -1,5 +1,6 @@
 package vn.anibis.core.web;
 
+import com.google.inject.internal.cglib.proxy.$Dispatcher;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.*;
@@ -7,15 +8,18 @@ import org.openqa.selenium.support.ui.*;
 import vn.anibis.core.config.Configuration;
 import vn.anibis.core.enums.ActionType;
 import vn.anibis.core.repository.ObjectRepository;
+import vn.anibis.util.StringUtil;
 
 import java.time.Duration;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class AbstractWebAction extends Configuration implements WebAction {
+public abstract class AbstractWebAction extends AbstractAction implements WebAction {
     private static final Logger LOGGER = Logger.getLogger(AbstractWebAction.class);
+    public static WebDriver driver;
     private WebElement currentElement;
     int defaultTimeOut = 10;
+
 
     public void click(String objPath) throws Exception {
         findElement(objPath);
@@ -55,15 +59,24 @@ public class AbstractWebAction extends Configuration implements WebAction {
 
     @Override
     public void openBrowser() {
-        initDriver(ActionType.valueOf(Configuration.instance().getValue("web.browser.name").toUpperCase()));
+//        initDriver(ActionType.valueOf(Configuration.instance().getValue("web.browser.name").toUpperCase()));
 
+    }
+    @Override
+    public void initDriver(){
+        String timeout = Configuration.instance().getValue("object.wait.timeout");
+            if (timeout != null && !timeout.isEmpty()) {
+                defaultTimeOut = Integer.parseInt(timeout);
+            }
+            driver.manage().timeouts().implicitlyWait(defaultTimeOut, TimeUnit.SECONDS);
+            driver.manage().timeouts().pageLoadTimeout(defaultTimeOut,TimeUnit.SECONDS);
+            driver.manage().deleteAllCookies();
     }
 
     @Override
     public void goToURL(String URL) {
         driver.manage().window().maximize();
         driver.get(URL);
-        driver.manage().deleteAllCookies();
     }
 
     @Override
@@ -143,5 +156,9 @@ public class AbstractWebAction extends Configuration implements WebAction {
                 .ignoring(NoSuchElementException.class);
         setWaitTimeOut(0);
         return wait;
+    }
+    @Override
+    public void quitDriver(){
+        driver.quit();
     }
 }
