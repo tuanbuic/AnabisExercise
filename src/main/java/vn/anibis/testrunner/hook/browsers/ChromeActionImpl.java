@@ -14,7 +14,7 @@ public class ChromeActionImpl extends AbstractWebAction {
         options.addArguments("disable-infobars");
         options.addArguments("disable-web-security");
         options.addArguments("-dev-shm-usage");
-        driver = new ChromeDriver(options);
+        driver.set(new ChromeDriver(options));
         super.initDriver();
     }
 

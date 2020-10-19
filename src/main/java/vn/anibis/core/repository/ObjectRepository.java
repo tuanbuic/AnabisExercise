@@ -60,9 +60,11 @@ public class ObjectRepository {
         try {
             LocatorType locatorType = LocatorType.XPATH;
             String locatorValue;
+            //xpath
             if (objName.startsWith("//") || objName.startsWith("./") || objName.startsWith("/") ||
                     objName.startsWith("(/")) {
                 locatorValue = objName;
+                //locator
             } else{
                 locatorValue = propObjRepo.getProperty(objName);
                 int index = locatorValue.indexOf(SEPARATE_KEY);

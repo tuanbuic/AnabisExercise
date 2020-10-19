@@ -16,7 +16,8 @@ import java.util.concurrent.TimeUnit;
 
 public abstract class AbstractWebAction extends AbstractAction implements WebAction {
     private static final Logger LOGGER = Logger.getLogger(AbstractWebAction.class);
-    public static WebDriver driver;
+//    public static WebDriver driver;
+    protected static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
     private WebElement currentElement;
     int defaultTimeOut = 10;
 
@@ -38,7 +39,7 @@ public abstract class AbstractWebAction extends AbstractAction implements WebAct
     public WebElement findElement(String objPath) throws Exception {
         this.currentElement = null;
 
-        this.currentElement = driver.findElement(getBy(objPath));
+        this.currentElement = driver.get().findElement(getBy(objPath));
         if (currentElement == null) {
             LOGGER.info("Cannot find " + objPath);
             throw new Exception("Cannot find " + objPath);
@@ -49,7 +50,7 @@ public abstract class AbstractWebAction extends AbstractAction implements WebAct
 
     @Override
     public List<WebElement> findElements(String objPath) {
-        return driver.findElements(getBy(objPath));
+        return driver.get().findElements(getBy(objPath));
     }
 
     @Override
@@ -68,15 +69,15 @@ public abstract class AbstractWebAction extends AbstractAction implements WebAct
             if (timeout != null && !timeout.isEmpty()) {
                 defaultTimeOut = Integer.parseInt(timeout);
             }
-            driver.manage().timeouts().implicitlyWait(defaultTimeOut, TimeUnit.SECONDS);
-            driver.manage().timeouts().pageLoadTimeout(defaultTimeOut,TimeUnit.SECONDS);
-            driver.manage().deleteAllCookies();
+            driver.get().manage().timeouts().implicitlyWait(defaultTimeOut, TimeUnit.SECONDS);
+            driver.get().manage().timeouts().pageLoadTimeout(defaultTimeOut,TimeUnit.SECONDS);
+            driver.get().manage().deleteAllCookies();
     }
 
     @Override
     public void goToURL(String URL) {
-        driver.manage().window().maximize();
-        driver.get(URL);
+        driver.get().manage().window().maximize();
+        driver.get().get(URL);
     }
 
     @Override
@@ -130,17 +131,17 @@ public abstract class AbstractWebAction extends AbstractAction implements WebAct
 
     @Override
     public void setWaitTimeOut(int time) {
-        driver.manage().timeouts().implicitlyWait(time, TimeUnit.SECONDS);
+        driver.get().manage().timeouts().implicitlyWait(time, TimeUnit.SECONDS);
     }
 
     @Override
     public String getPageTitle() {
-        return driver.getTitle();
+        return driver.get().getTitle();
     }
 
     @Override
     public WebElement getCusor() {
-        return driver.switchTo().activeElement();
+        return driver.get().switchTo().activeElement();
     }
 
     @Override
@@ -150,7 +151,7 @@ public abstract class AbstractWebAction extends AbstractAction implements WebAct
     }
 
     public FluentWait<WebDriver> createFluentWait(int timeout) {
-        FluentWait<WebDriver> wait = new FluentWait<WebDriver>(driver)
+        FluentWait<WebDriver> wait = new FluentWait<WebDriver>(driver.get())
                 .withTimeout(Duration.ofSeconds(timeout))
                 .pollingEvery(Duration.ofMillis(500))
                 .ignoring(NoSuchElementException.class);
@@ -159,6 +160,6 @@ public abstract class AbstractWebAction extends AbstractAction implements WebAct
     }
     @Override
     public void quitDriver(){
-        driver.quit();
+        driver.get().quit();
     }
 }
