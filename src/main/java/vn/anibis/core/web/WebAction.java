@@ -12,7 +12,6 @@ public interface WebAction extends Action {
     WebElement findElement(String objPath) throws Exception;
     List<WebElement> findElements(String objPath);
     By getBy(String objPath);
-    void openBrowser();
     void goToURL(String URL);
     void selectItemByText(String objPath, String text) throws Exception;
     void selectItemByIndex(String objPath, int index) throws Exception;
@@ -25,5 +24,13 @@ public interface WebAction extends Action {
     String getCSSValue(String objpath, String cssValueName) throws Exception;
     void initDriver() ;
     void quitDriver();
+    void acceptAlert() throws Exception;
+    Boolean isAlertPresent() throws Exception;
+    String buildObjPathByParams(String objPath, String... params) throws Exception;
+    Boolean checkListIsSorted(String objPath, String sortOrder) throws Exception;
+    Boolean checkListIsSorted(String objPath, String sortOrder, String attributeName) throws Exception;
+    void clearText(String objPath) throws Exception;
+    void clearTextWithHotKeys(String objPath) throws Exception;
+
 
 }

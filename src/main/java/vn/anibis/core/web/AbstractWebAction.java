@@ -58,11 +58,7 @@ public abstract class AbstractWebAction extends AbstractAction implements WebAct
         return ObjectRepository.instance().getBy(objPath);
     }
 
-    @Override
-    public void openBrowser() {
-//        initDriver(ActionType.valueOf(Configuration.instance().getValue("web.browser.name").toUpperCase()));
 
-    }
     @Override
     public void initDriver(){
         String timeout = Configuration.instance().getValue("object.wait.timeout");
@@ -162,4 +158,53 @@ public abstract class AbstractWebAction extends AbstractAction implements WebAct
     public void quitDriver(){
         driver.get().quit();
     }
+
+    @Override
+    public void acceptAlert() throws Exception {
+        if (isAlertPresent()) {
+            driver.get().switchTo().alert().accept();
+        }
+    }
+
+
+    @Override
+    public Boolean isAlertPresent() throws Exception {
+        try{
+            final WebDriverWait wait = new WebDriverWait(driver.get(),10);
+            wait.until(ExpectedConditions.alertIsPresent());
+            return true;
+        }catch (final WebDriverException ex){
+            if(ex.getMessage().contains("An attempt was made to operate on a modal dialog when one was not open")){
+                return false;
+            }else{
+                throw ex;
+            }
+        }
+    }
+
+    @Override
+    public String buildObjPathByParams(String objPath, String... params) throws Exception {
+        return null;
+    }
+
+    @Override
+    public Boolean checkListIsSorted(String objPath, String sortOrder) throws Exception {
+        return null;
+    }
+
+    @Override
+    public Boolean checkListIsSorted(String objPath, String sortOrder, String attributeName) throws Exception {
+        return null;
+    }
+
+    @Override
+    public void clearText(String objPath) throws Exception {
+
+    }
+
+    @Override
+    public void clearTextWithHotKeys(String objPath) throws Exception {
+
+    }
+
 }

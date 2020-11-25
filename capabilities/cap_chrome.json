@@ -1,0 +1,13 @@
+{
+  "args": [
+    "disable-web-security",
+    "--no-sandbox",
+    "disable-infobars",
+    "disable-dev-shm-usage",
+    "start-maximized"
+  ],
+  "caps":{
+    "browserName":"chrome",
+    "acceptInsecureCerts":true
+  }
+}

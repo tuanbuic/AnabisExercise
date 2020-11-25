@@ -25,6 +25,7 @@ public class Configuration {
     public static final String WEB_DRIVER_PATH = "web.driver.path";
     public static final String WEB_BROWSER_NAME = "web.browser.name";
     public static final String OBJ_REPO_FOLDER = "obj.repo.folder";
+    public static final  String WEB_CAPABILITIES_FILES="web.capabilities.file";
     public static final String DEFAULT_CONFIG = "config/environment.properties";
     public static final String DEFAULT_CONFIG_FOLDER = "config";
     public static final String DEFAULT_CONFIG_FILE = "config.properties";

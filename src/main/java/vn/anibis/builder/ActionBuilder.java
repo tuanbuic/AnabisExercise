@@ -10,6 +10,8 @@ public class ActionBuilder {
             switch (type){
                 case CHROME:
                     return (Action) Class.forName("vn.anibis.testrunner.hook.browsers.ChromeActionImpl").newInstance();
+                case FIREFOX:
+                    return (Action) Class.forName("vn.anibis.testrunner.hook.browsers.FirefoxActionImpl").newInstance();
                 default:
                     return null;
             }
