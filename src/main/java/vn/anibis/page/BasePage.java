@@ -12,6 +12,7 @@ public class BasePage {
     public BasePage(){
         try {
             String platformName = Configuration.instance().getValue(Configuration.WEB_BROWSER_NAME);
+
             if(platformName!=null && !platformName.isEmpty()){
                 setWebAction(ActionType.valueOf(platformName.toUpperCase()));
             }
