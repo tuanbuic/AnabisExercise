@@ -1,14 +1,11 @@
 package vn.anibis.core.web;
 
-import com.google.inject.internal.cglib.proxy.$Dispatcher;
 import org.apache.log4j.Logger;
-import org.junit.Assert;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.*;
+import vn.anibis.core.AbstractAction;
 import vn.anibis.core.config.Configuration;
-import vn.anibis.core.enums.ActionType;
 import vn.anibis.core.repository.ObjectRepository;
-import vn.anibis.util.StringUtil;
 
 import java.time.Duration;
 import java.util.List;
@@ -60,7 +57,7 @@ public abstract class AbstractWebAction extends AbstractAction implements WebAct
 
 
     @Override
-    public void initDriver(){
+    public void initDriver() throws Exception {
         String timeout = Configuration.instance().getValue("object.wait.timeout");
             if (timeout != null && !timeout.isEmpty()) {
                 defaultTimeOut = Integer.parseInt(timeout);
@@ -72,8 +69,9 @@ public abstract class AbstractWebAction extends AbstractAction implements WebAct
 
     @Override
     public void goToURL(String URL) {
-        driver.get().manage().window().maximize();
         driver.get().get(URL);
+        driver.get().manage().window().maximize();
+
     }
 
     @Override
@@ -206,5 +204,18 @@ public abstract class AbstractWebAction extends AbstractAction implements WebAct
     public void clearTextWithHotKeys(String objPath) throws Exception {
 
     }
+    @Override
+    public WebDriver getDriver() throws Exception{
+        return driver.get();
+    }
+    @Override
+    public void closeDriver()throws Exception{
+      if(driver.get()!=null)
+          try{
+              driver.get().quit();
+          }catch(Exception e){}
+      driver.remove();
+    }
+
 
 }

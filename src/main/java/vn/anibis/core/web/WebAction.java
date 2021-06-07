@@ -3,6 +3,7 @@ package vn.anibis.core.web;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import vn.anibis.core.Action;
 
 import java.util.List;
 
@@ -22,7 +23,9 @@ public interface WebAction extends Action {
     String getPageTitle();
     WebElement getCusor();
     String getCSSValue(String objpath, String cssValueName) throws Exception;
-    void initDriver() ;
+    void initDriver() throws Exception;
+    WebDriver getDriver() throws Exception;
+    void closeDriver() throws Exception;
     void quitDriver();
     void acceptAlert() throws Exception;
     Boolean isAlertPresent() throws Exception;

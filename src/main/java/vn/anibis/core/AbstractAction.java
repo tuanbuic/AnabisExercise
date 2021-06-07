@@ -1,4 +1,4 @@
-package vn.anibis.core.web;
+package vn.anibis.core;
 
 import vn.anibis.util.StringUtil;
 

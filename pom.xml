@@ -15,8 +15,9 @@
         <serenity.cucumber.archetype.version>1.2.0</serenity.cucumber.archetype.version>
         <serenity.junit.archetype.version>1.2.0</serenity.junit.archetype.version>
         <selenium.version>3.141.59</selenium.version>
-        <parallel.tests>4</parallel.tests>
-        <webdriver.driver></webdriver.driver>
+<!--        <parallel.tests>4</parallel.tests>-->
+<!--        <webdriver.driver></webdriver.driver>-->
+        <restassured.version>3.3.0</restassured.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <encoding>UTF-8</encoding>
     </properties>
@@ -126,6 +127,27 @@
             <groupId>com.jayway.jsonpath</groupId>
             <artifactId>json-path</artifactId>
             <version>2.4.0</version>
+        </dependency>
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>${restassured.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>json-path</artifactId>
+            <version>${restassured.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>net.serenity-bdd</groupId>
+            <artifactId>serenity-rest-assured</artifactId>
+            <version>${serenity.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>io.cucumber</groupId>
+                    <artifactId>cucumber-core</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
     <build>

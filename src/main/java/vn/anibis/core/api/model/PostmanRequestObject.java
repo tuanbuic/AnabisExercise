@@ -11,6 +11,7 @@ import com.jayway.jsonpath.Option;
 import com.jayway.jsonpath.ReadContext;
 import net.minidev.json.JSONArray;
 import org.apache.log4j.Logger;
+import vn.anibis.util.FilesUtil;
 import vn.anibis.util.StringUtil;
 
 
@@ -35,67 +36,85 @@ public class PostmanRequestObject {
     String password;
     Map<String, String> headers;
 
-    public static PostmanRequestObject parse(String itemName, String collection, Map<String, String> env) {
+    public static PostmanRequestObject parse(String item, String collection, Map<String, String> env) {
         String auth = "";
-        String url = "";
-        String method = "";
         String body = "";
+        String url = "";
         String username = "";
         String password = "";
+        String method = "";
         Map<String, String> headers = new HashMap<>();
         PostmanRequestObject postmanRequestObject = new PostmanRequestObject();
         Configuration conf = Configuration.defaultConfiguration();
         conf.addOptions(Option.DEFAULT_PATH_LEAF_TO_NULL);
-        JSONArray objRequest = JsonPath.using(conf)
-                .parse(collection)
-                .read(String.format(REQUEST_JSON_PATH, itemName));
+        JSONArray objRequest = JsonPath.using(conf).parse(collection).read(String.format(REQUEST_JSON_PATH, item));
         if (objRequest == null) {
             LOGGER.error("Something wrong with json and jsondata. JSONObject is null.");
         }
         String requestString = conf.jsonProvider().toJson(objRequest.get(0));
         //Replace String
-        requestString = StringUtil.replaceStringWithMap(requestString, env);
+        requestString = StringUtil.replaceStringWithMap(requestString,env);
         ReadContext ctx = JsonPath.parse(requestString);
         //url
         JSONArray urlArray = ctx.read(URL_RAW_JSON_PATH);
-        if (urlArray.isEmpty()) {
+        if(urlArray.isEmpty()){
             urlArray = ctx.read(URL_JSON_PATH);
         }
-        if (!urlArray.isEmpty()) {
-            url = (urlArray.get(0).toString());
+        if(!urlArray.isEmpty()){
+            url = urlArray.get(0).toString();
         }
-        //header
-        JSONArray headerArray = ctx.read(HEADER_JSON_PATH);
-        if (!headerArray.isEmpty()) {
-            for (Object object : (JSONArray) headerArray.get(0)) {
-                if (object instanceof Map) {
-                    Map<String, String> map = (Map<String, String>) object;
-                    headers.put(map.get("key"), map.get("value"));
+        //headers
+        JSONArray headersArray = ctx.read(HEADER_JSON_PATH);
+        if(!headersArray.isEmpty()){
+            for(Object object :  (JSONArray)headersArray.get(0)){
+                if(object instanceof  Map){
+                    Map<String,String> map = (Map<String, String>) object;
+                    headers.put(map.get("key"),map.get("value"));
                 }
+
             }
         }
         //body
         JSONArray bodyArray = ctx.read(BODY_RAW_JSON_PATH);
         if(!bodyArray.isEmpty()){
             body = bodyArray.get(0).toString();
+        }else{
+            bodyArray = ctx.read(BODY_FORM_JSON_PATH);
+            StringBuilder sb = new StringBuilder();
+            if(!bodyArray.isEmpty()){
+                for(Object object :(JSONArray)bodyArray.get(0)){
+                    if(object instanceof Map){
+                        Map<String, String>map = (Map<String, String>) object;
+                        sb.append(map.get("key"));
+                        sb.append("=");
+                        sb.append(map.get("value"));
+                        sb.append("&");
+                    }
+                }
+            }
+            if (sb.length() > 0) {
+                sb.deleteCharAt(sb.length() - 1);
+            }
+            body = sb.toString();
         }
+
         //auth
-        JSONArray authArray =  ctx.read(AUTH_BASIC_JSON_PATH);
+        JSONArray authArray = ctx.read(AUTH_BASIC_JSON_PATH);
         if(!authArray.isEmpty()){
-            username=((JSONArray)ctx.read(AUTH_BASIC_USR_JSON_PATH)).get(0).toString();
-            password=((JSONArray) ctx.read(AUTH_BASIC_PWRD_JSON_PATH)).get(0).toString();
+            username = ((JSONArray)ctx.read(AUTH_BASIC_USR_JSON_PATH)).get(0).toString();
+            password = ((JSONArray)ctx.read(AUTH_BASIC_PWRD_JSON_PATH)).get(0).toString();
             auth="basic";
             headers.remove("Authorization");
-
         }else{
             authArray = ctx.read(AUTH_BEARER_JSON_PATH);
-            if (!authArray.isEmpty()) {
-                headers.put("Authorization", authArray.get(0).toString());
+            if(!authArray.isEmpty()){
+                headers.put("Authorization",authArray.get(0).toString());
             }
         }
         //method
         JSONArray methodArray = ctx.read(METHOD_JSON_PATH);
         method = methodArray.get(0).toString();
+
         postmanRequestObject.setUrl(url);
         postmanRequestObject.setAuth(auth);
         postmanRequestObject.setUsername(username);
@@ -103,7 +122,6 @@ public class PostmanRequestObject {
         postmanRequestObject.setBody(body);
         postmanRequestObject.setHeaders(headers);
         postmanRequestObject.setMethod(method);
-
         return postmanRequestObject;
     }
     public String getAuth() {
@@ -161,5 +179,4 @@ public class PostmanRequestObject {
     public void setUsername(String username) {
         this.username = username;
     }
-
 }

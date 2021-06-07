@@ -1,5 +1,6 @@
 package vn.anibis.test.pages;
 
+import net.serenitybdd.core.Serenity;
 import org.apache.log4j.Logger;
 
 import org.junit.Assert;
@@ -10,6 +11,8 @@ import vn.anibis.core.config.Configuration;
 import vn.anibis.core.web.AbstractWebAction;
 import vn.anibis.page.BasePage;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,9 +31,12 @@ public class CommonPage extends BasePage {
 
     public void gotoURL(String URL) {
         try {
+            openBrowser();
             webAction.goToURL(URL);
         } catch (TimeoutException e) {
             Assert.fail("Timeout because of Page loading too long");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -149,5 +155,29 @@ public class CommonPage extends BasePage {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    public static String getCurrentDate(String format) {
+        Date dt = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        return sdf.format(dt);
+
+    }
+
+
+    public void openBrowser()throws Exception{
+        webAction.initDriver();
+        Serenity.getWebdriverManager().registerDriver(webAction.getDriver());
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            @Override
+            public void run() {
+                try {
+                    CommonPage.this.webAction.closeDriver();
+                    Serenity.getWebdriverManager().closeAllDrivers();
+                } catch (Exception e) {
+                }
+            }
+        });
+        
     }
 }

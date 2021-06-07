@@ -31,6 +31,7 @@ public class Configuration {
     public static final String DEFAULT_CONFIG_FILE = "config.properties";
     public static final String DEFAULT_DATA_FOLDER = "data";
     public static final String DEFAULT_DATA_FILE = "data.properties";
+    public  static final String REST_ASSURED_CLASS = "rest.assured.class";
     static final Logger LOGGER = Logger.getLogger(Configuration.class);
     private static Configuration config;
     Properties props;
