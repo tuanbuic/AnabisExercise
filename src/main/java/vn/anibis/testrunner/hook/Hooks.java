@@ -9,7 +9,7 @@ import vn.anibis.core.enums.ActionType;
 import vn.anibis.page.BasePage;
 import vn.anibis.test.pages.CommonPage;
 
-public class Hooks extends BasePage {
+public class Hooks {
 //    @Before
 //    public void BeforeSteps() throws Exception {
 //        System.out.println("----------------------------Begin Running Test Scenario----------------------------");
@@ -23,9 +23,7 @@ public class Hooks extends BasePage {
 //        webAction.quitDriver();
 //    }
 @Before
-public void setUp(Scenario scenario) throws Exception {
-    webAction.initDriver();
-    CommonPage commonPage = new CommonPage();
-    System.out.println("[" + commonPage.getCurrentDate("dd-MM-YYY hh-mm-ss") + "] *** Start: " + scenario.getName());
+public void setUp(Scenario scenario) {
+    System.out.println("[" + CommonPage.getCurrentDate("dd-MM-YYY hh-mm-ss") + "] *** Start: " + scenario.getName());
 }
 }
